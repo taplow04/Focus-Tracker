@@ -1,0 +1,170 @@
+.dashboard-container {
+  width: 100%;
+  margin: 0 auto;
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+  width: 100%;
+}
+
+.grid-item {
+  min-height: 500px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Timer - Full width on desktop, 2 columns */
+.timer-item {
+  grid-column: span 2;
+}
+
+/* Goal Tracker - 2 columns */
+.goal-item {
+  grid-column: span 2;
+}
+
+/* Task Planner - Full width on desktop, 4 columns */
+.tasks-item {
+  grid-column: span 2;
+}
+
+/* Stats - Full width on desktop, 4 columns */
+.stats-item {
+  grid-column: span 2;
+}
+
+/* Tablet Layout */
+@media (max-width: 1200px) {
+  .dashboard-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
+  }
+
+  .timer-item {
+    grid-column: span 1;
+  }
+
+  .goal-item {
+    grid-column: span 1;
+  }
+
+  .tasks-item {
+    grid-column: span 2;
+  }
+
+  .stats-item {
+    grid-column: span 2;
+  }
+}
+
+@media (max-width: 768px) {
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .timer-item {
+    grid-column: span 1;
+    min-height: 450px;
+  }
+
+  .goal-item {
+    grid-column: span 1;
+    min-height: 450px;
+  }
+
+  .tasks-item {
+    grid-column: span 1;
+    min-height: 400px;
+  }
+
+  .stats-item {
+    grid-column: span 1;
+    min-height: 400px;
+  }
+
+  .dashboard-container {
+    padding: 1rem 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .dashboard-grid {
+    gap: 0.75rem;
+  }
+
+  .grid-item {
+    min-height: 400px;
+  }
+
+  .timer-item {
+    min-height: 500px;
+  }
+
+  .goal-item {
+    min-height: 400px;
+  }
+
+  .tasks-item {
+    min-height: 350px;
+  }
+
+  .stats-item {
+    min-height: 350px;
+  }
+}
+
+/* Animation for grid items */
+.grid-item {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+.grid-item:nth-child(1) {
+  animation-delay: 0s;
+}
+
+.grid-item:nth-child(2) {
+  animation-delay: 0.1s;
+}
+
+.grid-item:nth-child(3) {
+  animation-delay: 0.2s;
+}
+
+.grid-item:nth-child(4) {
+  animation-delay: 0.3s;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(99, 102, 241, 0.1);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(99, 102, 241, 0.3);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(99, 102, 241, 0.5);
+}

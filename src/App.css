@@ -1,0 +1,19 @@
+/* App.css - Component-specific overrides only */
+
+/* Ensure full height layout */
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+main {
+  flex: 1;
+}
+
+/* Override any legacy styles */
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
