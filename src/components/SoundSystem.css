@@ -357,11 +357,14 @@
   }
 
   .sound-panel {
-    width: calc(100vw - 2rem);
-    bottom: auto;
-    top: auto;
+    position: fixed;
+    width: auto;
     left: 1rem;
+    right: 1rem;
+    bottom: 5rem;
+    top: auto;
     max-width: none;
+    max-height: calc(100vh - 7rem);
   }
 
   .sounds-grid {
