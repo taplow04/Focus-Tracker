@@ -14,11 +14,25 @@ const SoundSystem = () => {
   // Initialize Web Audio API
   const initAudioContext = () => {
     if (audioContextRef.current) return audioContextRef.current;
-    const audioContext = new (
-      window.AudioContext || window.webkitAudioContext
-    )();
+    const AudioCtx = window.AudioContext || window.webkitAudioContext;
+    if (!AudioCtx) return null;
+    const audioContext = new AudioCtx();
     audioContextRef.current = audioContext;
     return audioContext;
+  };
+
+  // Mobile browsers (especially iOS Safari) start the AudioContext in a
+  // "suspended" state. It can only be resumed in response to a user gesture,
+  // otherwise no sound will play even though everything is wired up.
+  const resumeAudioContext = (audioContext) => {
+    if (audioContext && audioContext.state === "suspended") {
+      const resumePromise = audioContext.resume();
+      if (resumePromise && typeof resumePromise.catch === "function") {
+        resumePromise.catch(() => {
+          // Ignore — will retry on next user interaction
+        });
+      }
+    }
   };
 
   // Generate white noise
@@ -55,6 +69,8 @@ const SoundSystem = () => {
     }
 
     const audioContext = initAudioContext();
+    if (!audioContext) return;
+    resumeAudioContext(audioContext);
     const gainNode = audioContext.createGain();
     gainNode.gain.value = soundSystem.volume / 100;
     gainNodeRef.current = gainNode;
@@ -138,12 +154,29 @@ const SoundSystem = () => {
     return sound ? sound.name : "Sound";
   };
 
+  // Unlock audio playback on iOS/mobile by creating and resuming the
+  // AudioContext inside the same user-gesture call stack. Without this,
+  // the context can stay suspended and produce silence.
+  const handleSoundButtonClick = (soundId) => {
+    const audioContext = initAudioContext();
+    resumeAudioContext(audioContext);
+    playSound(soundId);
+  };
+
+  const handleTogglePanel = () => {
+    if (!isExpanded) {
+      const audioContext = initAudioContext();
+      resumeAudioContext(audioContext);
+    }
+    setIsExpanded(!isExpanded);
+  };
+
   return (
     <div className={`sound-system ${isExpanded ? "expanded" : ""}`}>
       {/* Floating Button */}
       <button
         className="sound-toggle-btn"
-        onClick={() => setIsExpanded(!isExpanded)}
+        onClick={handleTogglePanel}
         title="Sound System"
       >
         {soundSystem.isPlaying ? "🔊" : "🔇"}
@@ -208,7 +241,7 @@ const SoundSystem = () => {
                     ? "active"
                     : ""
                 }`}
-                onClick={() => playSound(sound.id)}
+                onClick={() => handleSoundButtonClick(sound.id)}
                 title={sound.description}
               >
                 <div className="sound-btn-icon">{sound.name.split(" ")[0]}</div>

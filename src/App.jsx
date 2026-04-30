@@ -44,7 +44,7 @@ const AppRouter = () => {
   const { user } = useApp();
 
   return (
-    <Router basename="/Focus-Tracker">
+    <Router>
       <AppLayout>
         <Routes>
           {/* Public Routes */}
