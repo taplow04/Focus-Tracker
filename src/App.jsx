@@ -42,9 +42,13 @@ const AppLayout = ({ children }) => {
 // Main Router Component
 const AppRouter = () => {
   const { user } = useApp();
+  const routerBasename =
+    import.meta.env.BASE_URL === "/"
+      ? undefined
+      : import.meta.env.BASE_URL.replace(/\/$/, "");
 
   return (
-    <Router basename="/Focus-Tracker">
+    <Router basename={routerBasename}>
       <AppLayout>
         <Routes>
           {/* Public Routes */}

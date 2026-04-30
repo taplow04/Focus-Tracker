@@ -3,7 +3,7 @@ import react from "@vitejs/plugin-react";
 
 // https://vite.dev/config/
 export default defineConfig({
-  base: "/Focus-Tracker/",
+  base: process.env.VERCEL ? "/" : "/Focus-Tracker/",
   build: {
     cssMinify: false,
   },
